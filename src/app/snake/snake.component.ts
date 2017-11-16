@@ -74,10 +74,11 @@ export class SnakeComponent implements OnInit {
     // update position and save
     this.ctx.save();
     this.ctx.fillStyle = "green";
-    this.ctx.fillRect(this.x, this.y, 25, 25);
-    this.tail.forEach((tail) => {
+    for (let i = 0; i < this.tail.length; i++) {
+      let tail = this.tail[i];
       this.ctx.fillRect(tail[0], tail[1], 25, 25);
-    });
+    }
+    this.ctx.fillRect(this.x, this.y, 25, 25);
   }
 
   move() {
@@ -92,8 +93,7 @@ export class SnakeComponent implements OnInit {
       if (this.tail.length > 0) {
         for (let i = 1; i < this.tail.length; i++) {
           let prev = this.tail[i - 1];
-          let curr = this.tail[i];
-          curr = prev;
+          this.tail[i] = prev;
         }
         this.tail[0] = [this.x, this.y + 25];
       }
@@ -104,10 +104,10 @@ export class SnakeComponent implements OnInit {
       if (this.tail.length > 0) {
         for (let i = 1; i < this.tail.length; i++) {
           let prev = this.tail[i - 1];
-          let curr = this.tail[i];
-          curr = prev;
+          this.tail[i] = prev;
         }
         this.tail[0] = [this.x, this.y - 25];
+        console.log('TAIL: ', this.tail);
       }
     } else if (this.key === 'ArrowRight') {
       this.x += 25;
@@ -116,8 +116,7 @@ export class SnakeComponent implements OnInit {
       if (this.tail.length > 0) {
         for (let i = 1; i < this.tail.length; i++) {
           let prev = this.tail[i - 1];
-          let curr = this.tail[i];
-          curr = prev;
+          this.tail[i] = prev;
         }
         this.tail[0] = [this.x - 25, this.y];
       }
@@ -128,8 +127,7 @@ export class SnakeComponent implements OnInit {
       if (this.tail.length > 0) {
         for (let i = 1; i < this.tail.length; i++) {
           let prev = this.tail[i - 1];
-          let curr = this.tail[i];
-          curr = prev;
+          this.tail[i] = prev;
         }
         this.tail[0] = [this.x + 25, this.y];
       }
