@@ -54,7 +54,7 @@ export class SnakeComponent implements OnInit {
   grow(x, y) {
     // add tail
     console.log('adding tail');
-    this.ctx.fillRect(x, y, 25, 25);
+    this.ctx.fillRect(x, y, 23, 23);
     this.tail.push([x, y]);
   }
   startGame() {
@@ -76,9 +76,9 @@ export class SnakeComponent implements OnInit {
     this.ctx.fillStyle = "green";
     for (let i = 0; i < this.tail.length; i++) {
       let tail = this.tail[i];
-      this.ctx.fillRect(tail[0], tail[1], 25, 25);
+      this.ctx.fillRect(tail[0], tail[1], 23, 23);
     }
-    this.ctx.fillRect(this.x, this.y, 25, 25);
+    this.ctx.fillRect(this.x, this.y, 23, 23);
   }
 
   move() {
