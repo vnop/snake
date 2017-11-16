@@ -5,13 +5,15 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { GardenComponent } from './garden/garden.component';
 import { SnakeComponent } from './snake/snake.component';
+import { FruitComponent } from './fruit/fruit.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     GardenComponent,
-    SnakeComponent
+    SnakeComponent,
+    FruitComponent
   ],
   imports: [
     BrowserModule
