@@ -54,10 +54,19 @@ export class SnakeComponent implements OnInit {
             this.clear();
             this.move();
             this.update();
+            this.startGame();
       }
     }
   }
 
+  startGame() {
+    // add speed
+    setInterval(() => {
+      this.clear();
+      this.move();
+      this.update();
+    }, 1000);
+  }
   clear() {
     // clear snake
     this.ctx.clearRect(0, 0, 600, 600);
