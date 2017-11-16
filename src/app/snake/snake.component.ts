@@ -27,24 +27,12 @@ export class SnakeComponent implements OnInit {
     // prevent moving opposite direction
     if (this.key === 'ArrowRight' && event.key !== 'ArrowLeft') {
       this.key = event.key;
-      this.clear();
-      this.move();
-      this.update();
     } else if (this.key === 'ArrowLeft' && event.key !== 'ArrowRight') {
       this.key = event.key;
-      this.clear();
-      this.move();
-      this.update();
     } else if (this.key === 'ArrowUp' && event.key !== 'ArrowDown') {
       this.key = event.key;
-      this.clear();
-      this.move();
-      this.update();
     } else if (this.key === 'ArrowDown' && event.key !== 'ArrowUp') {
       this.key = event.key;
-      this.clear();
-      this.move();
-      this.update();
     } else if (this.key === undefined) {
       if (event.key === 'ArrowUp' ||
           event.key === 'ArrowDown' ||
