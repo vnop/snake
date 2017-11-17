@@ -12,7 +12,8 @@ export class SnakeComponent implements OnInit {
   x: number;
   y: number;
   ctx: any;
-  tail: Array;
+  tail: any[];
+  // rename test variable
   test: number;
 
   ngOnInit() {

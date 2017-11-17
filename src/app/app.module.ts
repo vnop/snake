@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { GardenComponent } from './garden/garden.component';
 import { SnakeComponent } from './snake/snake.component';
 import { FruitComponent } from './fruit/fruit.component';
+import { DataService } from './data.service';
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import { FruitComponent } from './fruit/fruit.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
