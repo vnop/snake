@@ -1,5 +1,4 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-// import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-snake',
@@ -56,7 +55,11 @@ export class SnakeComponent implements OnInit {
       }
     }
   }
-
+  newGame() {
+    this.key = undefined;
+    this.clear();
+    this.ngOnInit();
+  }
   genRandom() {
     let val = Math.floor(Math.random() * 476);
     return Math.floor(val / 25) * 25;
@@ -95,10 +98,7 @@ export class SnakeComponent implements OnInit {
     this.ctx.fillRect(this.x, this.y, 23, 23);
     // draw fruit
     this.ctx.fillStyle = "red";
-    this.ctx.fillRect(this.fruitPosX,
-                      this.fruitPosY,
-                      23,
-                      23);
+    this.ctx.fillRect(this.fruitPosX, this.fruitPosY, 23, 23);
   }
 
   move() {
@@ -116,7 +116,7 @@ export class SnakeComponent implements OnInit {
             break;
           }
         }
-        console.log('moving up: ', this.y);
+        // console.log('moving up: ', this.y);
         if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
           this.grow(this.x, this.y);
           this.fruitPosX = this.genRandom();
@@ -147,7 +147,7 @@ export class SnakeComponent implements OnInit {
             break;
           }
         }
-        console.log('moving down: ', this.y);
+        // console.log('moving down: ', this.y);
         if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
           this.grow(this.x, this.y);
           this.fruitPosX = this.genRandom();
@@ -162,7 +162,6 @@ export class SnakeComponent implements OnInit {
             prev = curr;
           }
           this.tail[0] = [this.x, this.y - 25];
-          console.log('TAIL: ', this.tail);
         }
       }
     } else if (this.key === 'ArrowRight') {
@@ -179,7 +178,7 @@ export class SnakeComponent implements OnInit {
             break;
           }
         }
-        console.log('moving right: ', this.x);
+        // console.log('moving right: ', this.x);
         if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
           this.grow(this.x, this.y);
           this.fruitPosX = this.genRandom();
@@ -210,7 +209,7 @@ export class SnakeComponent implements OnInit {
             break;
           }
         }
-        console.log('moving left: ', this.x);
+        // console.log('moving left: ', this.x);
         if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
           this.grow(this.x, this.y);
           this.fruitPosX = this.genRandom();
