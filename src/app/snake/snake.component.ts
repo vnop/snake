@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { DataService } from '../data.service';
+// import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-snake',
@@ -8,7 +8,7 @@ import { DataService } from '../data.service';
 })
 export class SnakeComponent implements OnInit {
 
-  constructor(private data: DataService) { }
+  constructor() { }
   key: String;
   x: number;
   y: number;
@@ -32,8 +32,6 @@ export class SnakeComponent implements OnInit {
     // get fruit position from data
     this.fruitPosX = this.genRandom();
     this.fruitPosY = this.genRandom();
-    // this.fruitStatus = this.data.fruitPos.eatten;
-    // this.data.genRandom();
   }
   // in intervals of 1 sec, move snake
   @HostListener('document: keydown', ['$event'])
@@ -79,7 +77,7 @@ export class SnakeComponent implements OnInit {
       this.clear();
       this.move();
       this.update();
-    }, 1000);
+    }, 800);
   }
   clear() {
     // clear snake
@@ -109,12 +107,14 @@ export class SnakeComponent implements OnInit {
     // fruit position
     // signal fruit is eatten to data and update
     // fruit position from data
-    if (this.test === 5 || this.test === 10) {
-      this.grow(this.x, this.y);
-    }
     if (this.key === 'ArrowUp') {
       this.y -= 25;
       console.log('moving up: ', this.y);
+      if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
+        this.grow(this.x, this.y);
+        this.fruitPosX = this.genRandom();
+        this.fruitPosY = this.genRandom();
+      }
       // update position of tail
       if (this.tail.length > 0) {
         for (let i = 1; i < this.tail.length; i++) {
@@ -126,6 +126,11 @@ export class SnakeComponent implements OnInit {
     } else if(this.key === 'ArrowDown') {
       this.y += 25;
       console.log('moving down: ', this.y);
+      if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
+        this.grow(this.x, this.y);
+        this.fruitPosX = this.genRandom();
+        this.fruitPosY = this.genRandom();
+      }
       // update position of tail
       if (this.tail.length > 0) {
         for (let i = 1; i < this.tail.length; i++) {
@@ -138,6 +143,11 @@ export class SnakeComponent implements OnInit {
     } else if (this.key === 'ArrowRight') {
       this.x += 25;
       console.log('moving right: ', this.x);
+      if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
+        this.grow(this.x, this.y);
+        this.fruitPosX = this.genRandom();
+        this.fruitPosY = this.genRandom();
+      }
       // update position of tail
       if (this.tail.length > 0) {
         for (let i = 1; i < this.tail.length; i++) {
@@ -149,6 +159,11 @@ export class SnakeComponent implements OnInit {
     } else {
       this.x -= 25;
       console.log('moving left: ', this.x);
+      if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
+        this.grow(this.x, this.y);
+        this.fruitPosX = this.genRandom();
+        this.fruitPosY = this.genRandom();
+      }
       // update position of tail
       if (this.tail.length > 0) {
         for (let i = 1; i < this.tail.length; i++) {
