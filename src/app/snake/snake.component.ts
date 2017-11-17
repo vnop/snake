@@ -105,6 +105,13 @@ export class SnakeComponent implements OnInit {
         this.stop();
       } else {
         this.y -= 25;
+        for (let i = 0; i < this.tail.length; i++) {
+          let pos = this.tail[i];
+          if (this.x === pos[0] && this.y === pos[1]) {
+            this.stop();
+            break;
+          }
+        }
         console.log('moving up: ', this.y);
         if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
           this.grow(this.x, this.y);
@@ -127,6 +134,13 @@ export class SnakeComponent implements OnInit {
         this.stop();
       } else {
         this.y += 25;
+        for (let i = 0; i < this.tail.length; i++) {
+          let pos = this.tail[i];
+          if (this.x === pos[0] && this.y === pos[1]) {
+            this.stop();
+            break;
+          }
+        }
         console.log('moving down: ', this.y);
         if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
           this.grow(this.x, this.y);
@@ -150,6 +164,13 @@ export class SnakeComponent implements OnInit {
         this.stop();
       } else {
         this.x += 25;
+        for (let i = 0; i < this.tail.length; i++) {
+          let pos = this.tail[i];
+          if (this.x === pos[0] && this.y === pos[1]) {
+            this.stop();
+            break;
+          }
+        }
         console.log('moving right: ', this.x);
         if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
           this.grow(this.x, this.y);
@@ -172,6 +193,13 @@ export class SnakeComponent implements OnInit {
         this.stop();
       } else {
         this.x -= 25;
+        for (let i = 0; i < this.tail.length; i++) {
+          let pos = this.tail[i];
+          if (this.x === pos[0] && this.y === pos[1]) {
+            this.stop();
+            break;
+          }
+        }
         console.log('moving left: ', this.x);
         if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
           this.grow(this.x, this.y);
