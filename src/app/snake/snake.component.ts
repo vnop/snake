@@ -71,7 +71,7 @@ export class SnakeComponent implements OnInit {
       this.clear();
       this.move();
       this.update();
-    }, 800);
+    }, 500);
   }
   clear() {
     // clear snake
@@ -113,9 +113,11 @@ export class SnakeComponent implements OnInit {
         }
         // update position of tail
         if (this.tail.length > 0) {
+          let prev = this.tail[0];
           for (let i = 1; i < this.tail.length; i++) {
-            let prev = this.tail[i - 1];
+            let curr = this.tail[i];
             this.tail[i] = prev;
+            prev = curr;
           }
           this.tail[0] = [this.x, this.y + 25];
         }
@@ -133,9 +135,11 @@ export class SnakeComponent implements OnInit {
         }
         // update position of tail
         if (this.tail.length > 0) {
+          let prev = this.tail[0];
           for (let i = 1; i < this.tail.length; i++) {
-            let prev = this.tail[i - 1];
+            let curr = this.tail[i];
             this.tail[i] = prev;
+            prev = curr;
           }
           this.tail[0] = [this.x, this.y - 25];
           console.log('TAIL: ', this.tail);
@@ -154,9 +158,11 @@ export class SnakeComponent implements OnInit {
         }
         // update position of tail
         if (this.tail.length > 0) {
+          let prev = this.tail[0];
           for (let i = 1; i < this.tail.length; i++) {
-            let prev = this.tail[i - 1];
+            let curr = this.tail[i];
             this.tail[i] = prev;
+            prev = curr;
           }
           this.tail[0] = [this.x - 25, this.y];
         }
@@ -174,9 +180,11 @@ export class SnakeComponent implements OnInit {
         }
         // update position of tail
         if (this.tail.length > 0) {
+          let prev = this.tail[0];
           for (let i = 1; i < this.tail.length; i++) {
-            let prev = this.tail[i - 1];
+            let curr = this.tail[i];
             this.tail[i] = prev;
+            prev = curr;
           }
           this.tail[0] = [this.x + 25, this.y];
         }
