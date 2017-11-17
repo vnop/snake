@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-snake',
@@ -7,13 +8,17 @@ import { Component, OnInit, HostListener } from '@angular/core';
 })
 export class SnakeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private data: DataService) { }
   key: String;
   x: number;
   y: number;
   ctx: any;
-  tail: Array;
+  tail: any[];
+  // rename test variable
   test: number;
+  fruitPosX: number;
+  fruitPosY: number;
+  // fruitStatus: boolean;
 
   ngOnInit() {
     let canvas = document.getElementById("garden");
@@ -22,8 +27,13 @@ export class SnakeComponent implements OnInit {
     this.x = 0;
     this.y = 0;
     this.tail = [];
-    this.ctx.fillRect(this.x,this.y,25,25);
+    this.ctx.fillRect(this.x,this.y,23,23);
     this.test = 0;
+    // get fruit position from data
+    this.fruitPosX = this.genRandom();
+    this.fruitPosY = this.genRandom();
+    // this.fruitStatus = this.data.fruitPos.eatten;
+    // this.data.genRandom();
   }
   // in intervals of 1 sec, move snake
   @HostListener('document: keydown', ['$event'])
@@ -51,10 +61,15 @@ export class SnakeComponent implements OnInit {
     }
   }
 
+  genRandom() {
+    let val = Math.floor(Math.random() * 476);
+    return Math.floor(val / 25) * 25;
+  }
+
   grow(x, y) {
     // add tail
     console.log('adding tail');
-    this.ctx.fillRect(x, y, 25, 25);
+    this.ctx.fillRect(x, y, 23, 23);
     this.tail.push([x, y]);
   }
   startGame() {
@@ -74,15 +89,26 @@ export class SnakeComponent implements OnInit {
     // update position and save
     this.ctx.save();
     this.ctx.fillStyle = "green";
+    // tail
     for (let i = 0; i < this.tail.length; i++) {
       let tail = this.tail[i];
-      this.ctx.fillRect(tail[0], tail[1], 25, 25);
+      this.ctx.fillRect(tail[0], tail[1], 23, 23);
     }
-    this.ctx.fillRect(this.x, this.y, 25, 25);
+    // head
+    this.ctx.fillRect(this.x, this.y, 23, 23);
+    // draw fruit HERE
+    this.ctx.fillStyle = "red";
+    this.ctx.fillRect(this.fruitPosX,
+                      this.fruitPosY,
+                      23,
+                      23);
   }
 
   move() {
-    // add tail
+    // add tail if snake head is at position of
+    // fruit position
+    // signal fruit is eatten to data and update
+    // fruit position from data
     if (this.test === 5 || this.test === 10) {
       this.grow(this.x, this.y);
     }
