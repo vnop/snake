@@ -17,6 +17,7 @@ export class SnakeComponent implements OnInit {
   fruitPosX: number;
   fruitPosY: number;
   intervalId: any;
+  gamePlay: boolean;
 
   ngOnInit() {
     let canvas = document.getElementById("garden");
@@ -28,6 +29,7 @@ export class SnakeComponent implements OnInit {
     this.ctx.fillRect(this.x,this.y,23,23);
     this.fruitPosX = this.genRandom();
     this.fruitPosY = this.genRandom();
+    this.gamePlay = false;
   }
   // in intervals of 1 sec, move snake
   @HostListener('document: keydown', ['$event'])
@@ -102,12 +104,14 @@ export class SnakeComponent implements OnInit {
   move() {
     if (this.key === 'ArrowUp') {
       if (this.y === 0) {
+        this.gamePlay = true;
         this.stop();
       } else {
         this.y -= 25;
         for (let i = 0; i < this.tail.length; i++) {
           let pos = this.tail[i];
           if (this.x === pos[0] && this.y === pos[1]) {
+            this.gamePlay = true;
             this.stop();
             break;
           }
@@ -131,12 +135,14 @@ export class SnakeComponent implements OnInit {
       }
     } else if(this.key === 'ArrowDown') {
       if (this.y === 475) {
+        this.gamePlay = true;
         this.stop();
       } else {
         this.y += 25;
         for (let i = 0; i < this.tail.length; i++) {
           let pos = this.tail[i];
           if (this.x === pos[0] && this.y === pos[1]) {
+            this.gamePlay = true;
             this.stop();
             break;
           }
@@ -161,12 +167,14 @@ export class SnakeComponent implements OnInit {
       }
     } else if (this.key === 'ArrowRight') {
       if (this.x === 475) {
+        this.gamePlay = true;
         this.stop();
       } else {
         this.x += 25;
         for (let i = 0; i < this.tail.length; i++) {
           let pos = this.tail[i];
           if (this.x === pos[0] && this.y === pos[1]) {
+            this.gamePlay = true;
             this.stop();
             break;
           }
@@ -190,12 +198,14 @@ export class SnakeComponent implements OnInit {
       }
     } else {
       if (this.x === 0) {
+        this.gamePlay = true;
         this.stop();
       } else {
         this.x -= 25;
         for (let i = 0; i < this.tail.length; i++) {
           let pos = this.tail[i];
           if (this.x === pos[0] && this.y === pos[1]) {
+            this.gamePlay = true;
             this.stop();
             break;
           }

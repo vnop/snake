@@ -1,4 +1,5 @@
 <div>
-    <p>score: {{tail.length}}</p>
-    <p>Start game by pressing any arrow key</p>
+    <p><strong>Score: </strong>{{tail.length}}</p>
+    <p *ngIf="key === undefined">Start game by pressing any arrow key</p>
+    <p *ngIf="gamePlay"><strong>GAME OVER</strong></p>
 </div>
