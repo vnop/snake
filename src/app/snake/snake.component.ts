@@ -22,8 +22,8 @@ export class SnakeComponent implements OnInit {
     let canvas = document.getElementById("garden");
     this.ctx = canvas.getContext("2d");
     this.ctx.fillStyle = "green";
-    this.x = 0;
-    this.y = 0;
+    this.x = this.genRandom();
+    this.y = this.genRandom();
     this.tail = [];
     this.ctx.fillRect(this.x,this.y,23,23);
     this.fruitPosX = this.genRandom();
