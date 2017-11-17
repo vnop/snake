@@ -1,5 +1,4 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-snake',
@@ -8,32 +7,28 @@ import { DataService } from '../data.service';
 })
 export class SnakeComponent implements OnInit {
 
-  constructor(private data: DataService) { }
+  constructor() { }
   key: String;
   x: number;
   y: number;
   ctx: any;
   tail: any[];
-  // rename test variable
-  test: number;
   fruitPosX: number;
   fruitPosY: number;
-  // fruitStatus: boolean;
+  intervalId: any;
+  gamePlay: boolean;
 
   ngOnInit() {
     let canvas = document.getElementById("garden");
     this.ctx = canvas.getContext("2d");
     this.ctx.fillStyle = "green";
-    this.x = 0;
-    this.y = 0;
+    this.x = this.genRandom();
+    this.y = this.genRandom();
     this.tail = [];
     this.ctx.fillRect(this.x,this.y,23,23);
-    this.test = 0;
-    // get fruit position from data
     this.fruitPosX = this.genRandom();
     this.fruitPosY = this.genRandom();
-    // this.fruitStatus = this.data.fruitPos.eatten;
-    // this.data.genRandom();
+    this.gamePlay = false;
   }
   // in intervals of 1 sec, move snake
   @HostListener('document: keydown', ['$event'])
@@ -60,12 +55,15 @@ export class SnakeComponent implements OnInit {
       }
     }
   }
-
+  newGame() {
+    this.key = undefined;
+    this.clear();
+    this.ngOnInit();
+  }
   genRandom() {
     let val = Math.floor(Math.random() * 476);
     return Math.floor(val / 25) * 25;
   }
-
   grow(x, y) {
     // add tail
     console.log('adding tail');
@@ -74,16 +72,18 @@ export class SnakeComponent implements OnInit {
   }
   startGame() {
     // add speed
-    setInterval(() => {
-      this.test++;
+    this.intervalId = setInterval(() => {
       this.clear();
       this.move();
       this.update();
-    }, 1000);
+    }, 500);
   }
   clear() {
     // clear snake
     this.ctx.clearRect(0, 0, 600, 600);
+  }
+  stop() {
+    clearInterval(this.intervalId);
   }
   update() {
     // update position and save
@@ -96,66 +96,135 @@ export class SnakeComponent implements OnInit {
     }
     // head
     this.ctx.fillRect(this.x, this.y, 23, 23);
-    // draw fruit HERE
+    // draw fruit
     this.ctx.fillStyle = "red";
-    this.ctx.fillRect(this.fruitPosX,
-                      this.fruitPosY,
-                      23,
-                      23);
+    this.ctx.fillRect(this.fruitPosX, this.fruitPosY, 23, 23);
   }
 
   move() {
-    // add tail if snake head is at position of
-    // fruit position
-    // signal fruit is eatten to data and update
-    // fruit position from data
-    if (this.test === 5 || this.test === 10) {
-      this.grow(this.x, this.y);
-    }
     if (this.key === 'ArrowUp') {
-      this.y -= 25;
-      console.log('moving up: ', this.y);
-      // update position of tail
-      if (this.tail.length > 0) {
-        for (let i = 1; i < this.tail.length; i++) {
-          let prev = this.tail[i - 1];
-          this.tail[i] = prev;
+      if (this.y === 0) {
+        this.gamePlay = true;
+        this.stop();
+      } else {
+        this.y -= 25;
+        for (let i = 0; i < this.tail.length; i++) {
+          let pos = this.tail[i];
+          if (this.x === pos[0] && this.y === pos[1]) {
+            this.gamePlay = true;
+            this.stop();
+            break;
+          }
         }
-        this.tail[0] = [this.x, this.y + 25];
+        // console.log('moving up: ', this.y);
+        if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
+          this.grow(this.x, this.y);
+          this.fruitPosX = this.genRandom();
+          this.fruitPosY = this.genRandom();
+        }
+        // update position of tail
+        if (this.tail.length > 0) {
+          let prev = this.tail[0];
+          for (let i = 1; i < this.tail.length; i++) {
+            let curr = this.tail[i];
+            this.tail[i] = prev;
+            prev = curr;
+          }
+          this.tail[0] = [this.x, this.y + 25];
+        }
       }
     } else if(this.key === 'ArrowDown') {
-      this.y += 25;
-      console.log('moving down: ', this.y);
-      // update position of tail
-      if (this.tail.length > 0) {
-        for (let i = 1; i < this.tail.length; i++) {
-          let prev = this.tail[i - 1];
-          this.tail[i] = prev;
+      if (this.y === 475) {
+        this.gamePlay = true;
+        this.stop();
+      } else {
+        this.y += 25;
+        for (let i = 0; i < this.tail.length; i++) {
+          let pos = this.tail[i];
+          if (this.x === pos[0] && this.y === pos[1]) {
+            this.gamePlay = true;
+            this.stop();
+            break;
+          }
         }
-        this.tail[0] = [this.x, this.y - 25];
-        console.log('TAIL: ', this.tail);
+        // console.log('moving down: ', this.y);
+        if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
+          this.grow(this.x, this.y);
+          this.fruitPosX = this.genRandom();
+          this.fruitPosY = this.genRandom();
+        }
+        // update position of tail
+        if (this.tail.length > 0) {
+          let prev = this.tail[0];
+          for (let i = 1; i < this.tail.length; i++) {
+            let curr = this.tail[i];
+            this.tail[i] = prev;
+            prev = curr;
+          }
+          this.tail[0] = [this.x, this.y - 25];
+        }
       }
     } else if (this.key === 'ArrowRight') {
-      this.x += 25;
-      console.log('moving right: ', this.x);
-      // update position of tail
-      if (this.tail.length > 0) {
-        for (let i = 1; i < this.tail.length; i++) {
-          let prev = this.tail[i - 1];
-          this.tail[i] = prev;
+      if (this.x === 475) {
+        this.gamePlay = true;
+        this.stop();
+      } else {
+        this.x += 25;
+        for (let i = 0; i < this.tail.length; i++) {
+          let pos = this.tail[i];
+          if (this.x === pos[0] && this.y === pos[1]) {
+            this.gamePlay = true;
+            this.stop();
+            break;
+          }
         }
-        this.tail[0] = [this.x - 25, this.y];
+        // console.log('moving right: ', this.x);
+        if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
+          this.grow(this.x, this.y);
+          this.fruitPosX = this.genRandom();
+          this.fruitPosY = this.genRandom();
+        }
+        // update position of tail
+        if (this.tail.length > 0) {
+          let prev = this.tail[0];
+          for (let i = 1; i < this.tail.length; i++) {
+            let curr = this.tail[i];
+            this.tail[i] = prev;
+            prev = curr;
+          }
+          this.tail[0] = [this.x - 25, this.y];
+        }
       }
     } else {
-      this.x -= 25;
-      console.log('moving left: ', this.x);
-      // update position of tail
-      if (this.tail.length > 0) {
-        for (let i = 1; i < this.tail.length; i++) {
-          let prev = this.tail[i - 1];
-          this.tail[i] = prev;
+      if (this.x === 0) {
+        this.gamePlay = true;
+        this.stop();
+      } else {
+        this.x -= 25;
+        for (let i = 0; i < this.tail.length; i++) {
+          let pos = this.tail[i];
+          if (this.x === pos[0] && this.y === pos[1]) {
+            this.gamePlay = true;
+            this.stop();
+            break;
+          }
         }
-        this.tail[0] = [this.x + 25, this.y];
+        // console.log('moving left: ', this.x);
+        if (this.x === this.fruitPosX && this.y === this.fruitPosY) {
+          this.grow(this.x, this.y);
+          this.fruitPosX = this.genRandom();
+          this.fruitPosY = this.genRandom();
+        }
+        // update position of tail
+        if (this.tail.length > 0) {
+          let prev = this.tail[0];
+          for (let i = 1; i < this.tail.length; i++) {
+            let curr = this.tail[i];
+            this.tail[i] = prev;
+            prev = curr;
+          }
+          this.tail[0] = [this.x + 25, this.y];
+        }
       }
     }
   }
